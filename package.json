@@ -21,5 +21,8 @@
   "scripts": {
     "dev:functions": "nodemon -r dotenv/config ./index.ts",
     "dev": "stmux -w always -e ERROR -M -m beep,system -- [ -t 'Nitric: Exit using ctrl^a+k' \"nitric start\" .. -t 'Functions' \"wait-port localhost:50051 && npm run dev:functions\" ]"
+  },
+  "resolutions": {
+    "**/node-pty": "1.1.0-beta5"
   }
 }
