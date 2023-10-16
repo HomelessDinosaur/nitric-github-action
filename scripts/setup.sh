@@ -6,6 +6,7 @@ set -e -x
 # Download and install required tools.
 # nitric
 curl https://nitric.io/install | bash
+export PATH=$PATH:$HOME/.nitric/bin
 
 # pulumi
 curl -fsSL https://get.pulumi.com/ | bash
