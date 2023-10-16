@@ -27,4 +27,3 @@ apt-get install -y nodejs
 
 # yarn
 npm i -g yarn
-yarn install
