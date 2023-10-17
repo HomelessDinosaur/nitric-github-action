@@ -16,7 +16,7 @@ pulumi login
 
 # update the GitLab Runner's packages
 apt-get update -y
-apt-get install sudo ca-certificates curl gnupg docker.io -y
+apt-get install sudo ca-certificates curl gnupg docker.io docker-buildx-plugin -y
 
 # nodejs
 mkdir -p /etc/apt/keyrings
