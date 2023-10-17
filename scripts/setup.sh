@@ -14,9 +14,25 @@ export PATH=$PATH:$HOME/.pulumi/bin
 # Login into pulumi. This will require the PULUMI_ACCESS_TOKEN environment variable
 pulumi login
 
+# download docker
+# Add Docker's official GPG key:
+apt-get update
+apt-get install ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt-get update -y
+apt-get install docker.io docker-buildx-plugin -y
+
 # update the GitLab Runner's packages
 apt-get update -y
-apt-get install sudo ca-certificates curl gnupg docker.io docker-buildx-plugin -y
+apt-get install sudo ca-certificates curl gnupg -y
 
 # nodejs
 mkdir -p /etc/apt/keyrings
