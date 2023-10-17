@@ -16,7 +16,7 @@ update:
     AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
     DOCKER_HOST: "tcp://docker:2375"
-    DOCKER_DRIVER: overlay2
+    DOCKER_DRIVER: overlay
   services:
     - docker:dind
   before_script:
