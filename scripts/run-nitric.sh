@@ -9,4 +9,7 @@ export PATH=$PATH:$HOME/.nitric/bin
 
 yarn install
 
+# start docker daemon
+dockerd
+
 nitric up --ci -v2
