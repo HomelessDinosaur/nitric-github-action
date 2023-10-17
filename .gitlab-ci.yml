@@ -10,11 +10,14 @@ stages:
 
 update:
   stage: deploy
+  image: docker
   variables:
     PULUMI_CONFIG_PASSPHRASE: $PULUMI_ACCESS_TOKEN
     PULUMI_ACCESS_TOKEN: $PULUMI_ACCESS_TOKEN
     AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+  services:
+    - docker:dind
   before_script:
     - chmod +x ./scripts/*.sh
     - ./scripts/setup.sh
