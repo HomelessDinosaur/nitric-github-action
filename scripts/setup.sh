@@ -13,9 +13,10 @@ curl -fsSL https://get.pulumi.com/ | bash
 export PATH=$PATH:$HOME/.pulumi/bin
 # Login into pulumi. This will require the PULUMI_ACCESS_TOKEN environment variable
 pulumi login
+
 # update the GitLab Runner's packages
 apt-get update -y
-apt-get install sudo ca-certificates curl gnupg -y
+apt-get install sudo ca-certificates curl gnupg docker.io -y
 
 # nodejs
 mkdir -p /etc/apt/keyrings
