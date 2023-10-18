@@ -7,6 +7,9 @@ set -e -x
 export PATH=$PATH:$HOME/.pulumi/bin
 export PATH=$PATH:$HOME/.nitric/bin
 
+apt-get update
+apt-get install sudo -y
+
 yarn install
 
 sudo nitric up --ci -v2
