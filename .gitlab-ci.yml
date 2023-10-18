@@ -13,13 +13,12 @@ update:
     PULUMI_ACCESS_TOKEN: $PULUMI_ACCESS_TOKEN
     AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+    DOCKER_HOST: "tcp://docker:2375"
     DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
   services:
     - docker:dind
   before_script:
     - chmod +x ./scripts/*.sh
     - ./scripts/setup.sh
   script:
-    - docker buildx create --driver=docker-container --name=buildkit-builder --use
     - ./scripts/run-nitric.sh

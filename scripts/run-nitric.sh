@@ -7,6 +7,8 @@ set -e -x
 export PATH=$PATH:$HOME/.pulumi/bin
 export PATH=$PATH:$HOME/.nitric/bin
 
+docker buildx create --driver=docker-container --name=buildkit-builder --use
+
 yarn install
 
 nitric up --ci -v2
