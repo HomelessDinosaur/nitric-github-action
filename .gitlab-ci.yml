@@ -16,8 +16,9 @@ update:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   services:
-    - docker:18-dind
+    - docker:19.03.0-dind
   before_script:
+    - docker info
     - chmod +x ./scripts/*.sh
     - ./scripts/setup.sh
   script:
