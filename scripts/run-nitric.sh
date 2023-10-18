@@ -9,4 +9,4 @@ export PATH=$PATH:$HOME/.nitric/bin
 
 yarn install
 
-nitric up --ci -v2
+sudo nitric up --ci -v2
