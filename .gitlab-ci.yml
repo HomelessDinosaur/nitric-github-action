@@ -1,10 +1,12 @@
-stages:
-  - deploy
+image: docker:19.03.0
 
 .standard-rules: # Make a hidden job to hold the common rules
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+services:
+  - docker:19.03.0-dind
 
 update:
   stage: deploy
@@ -15,11 +17,8 @@ update:
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
-  services:
-    - docker:19.03.0-dind
   before_script:
-    - docker info
     - chmod +x ./scripts/*.sh
-    - ./scripts/setup.sh
+    - ./sh scripts/setup.sh
   script:
-    - ./scripts/run-nitric.sh
+    - ./sh scripts/run-nitric.sh
