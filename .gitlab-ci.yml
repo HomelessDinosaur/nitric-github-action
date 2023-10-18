@@ -19,6 +19,6 @@ update:
     DOCKER_TLS_CERTDIR: ""
   before_script:
     - chmod +x ./scripts/*.sh
-    - ./scripts/setup.sh
+    - bash ./scripts/setup.sh
   script:
-    - ./scripts/run-nitric.sh
+    - bash ./scripts/run-nitric.sh
