@@ -24,8 +24,7 @@ install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 chmod a+r /etc/apt/keyrings/docker.gpg
 
-groupadd docker && usermod -aG docker ubuntu
-systemctl enable docker, restart services
+systemctl start docker
 
 # Add the repository to Apt sources:
 echo \
