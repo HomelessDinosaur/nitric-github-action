@@ -7,6 +7,9 @@ services:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
+stages:
+  - deploy
+
 update:
   stage: deploy
   variables:
@@ -18,7 +21,61 @@ update:
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
     AWS_REGION: "us-east-1"
   before_script:
-    - chmod +x ./scripts/*.sh
-    - ./scripts/setup.sh
+    - |
+# exit if a command returns a non-zero exit code and also print the commands and their args as they are executed
+set -e -x
+
+# Download and install required tools.
+# nitric
+curl https://nitric.io/install | bash
+export PATH=$PATH:$HOME/.nitric/bin
+
+# pulumi
+curl -fsSL https://get.pulumi.com/ | bash
+export PATH=$PATH:$HOME/.pulumi/bin
+# Login into pulumi. This will require the PULUMI_ACCESS_TOKEN environment variable
+pulumi login
+
+# update the GitLab Runner's packages
+apt-get update -y
+apt-get install sudo ca-certificates curl gnupg -y
+
+# download docker
+# Add Docker's official GPG key:
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+chmod a+r /etc/apt/keyrings/docker.gpg
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt-get update -y
+apt-get install docker.io docker-buildx-plugin -y
+
+# nodejs
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+NODE_MAJOR=20
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+apt-get update -y
+apt-get install -y nodejs
+
+# yarn
+npm i -g yarn
   script:
-    - ./scripts/run-nitric.sh
+    - |
+# exit if a command returns a non-zero exit code and also print the commands and their args as they are executed
+set -e -x
+
+# Add the pulumi CLI to the PATH
+export PATH=$PATH:$HOME/.pulumi/bin
+export PATH=$PATH:$HOME/.nitric/bin
+
+docker buildx create --driver=docker-container --name=buildkit-builder --use
+
+yarn install
+
+nitric up --ci -v2
+
