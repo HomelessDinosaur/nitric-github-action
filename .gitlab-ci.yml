@@ -39,8 +39,6 @@ update:
     - NODE_MAJOR=20
     - echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
   script:
-    - export PATH=$PATH:$HOME/.pulumi/bin
     - export PATH=$PATH:$HOME/.nitric/bin
-    - docker buildx create --driver=docker-container --name=buildkit-builder --use
     - yarn install
     - nitric up --ci -v2
