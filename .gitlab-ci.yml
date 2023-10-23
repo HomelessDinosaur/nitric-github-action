@@ -22,9 +22,6 @@ update:
     AWS_REGION: "us-east-1"
   before_script:
     - |
-# exit if a command returns a non-zero exit code and also print the commands and their args as they are executed
-set -e -x
-
 # Download and install required tools.
 # nitric
 curl https://nitric.io/install | bash
@@ -66,9 +63,6 @@ apt-get install -y nodejs
 npm i -g yarn
   script:
     - |
-# exit if a command returns a non-zero exit code and also print the commands and their args as they are executed
-set -e -x
-
 # Add the pulumi CLI to the PATH
 export PATH=$PATH:$HOME/.pulumi/bin
 export PATH=$PATH:$HOME/.nitric/bin
