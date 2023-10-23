@@ -12,6 +12,9 @@ stages:
 
 update:
   stage: deploy
+  image:
+    name: pulumi/pulumi
+    entrypoint: [""]
   variables:
     DOCKER_HOST: tcp://docker:2376
     DOCKER_TLS_CERTDIR: ""
@@ -21,11 +24,8 @@ update:
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
     AWS_REGION: "us-east-1"
   before_script:
-    - apt-get curl bash
     - curl https://nitric.io/install | bash
     - export PATH=$PATH:$HOME/.nitric/bin
-    - curl -fsSL https://get.pulumi.com/ | bash
-    - export PATH=$PATH:$HOME/.pulumi/bin
     - pulumi login
     - apt-get update -y
     - apt-get install sudo ca-certificates curl gnupg -y
