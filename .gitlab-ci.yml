@@ -30,7 +30,7 @@ update:
   script:
     - export PATH=$PATH:$HOME/.pulumi/bin
     - export PATH=$PATH:$HOME/.nitric/bin
-    - sudo systemctl start docker
+    - dockerd &> /dev/null &
     - docker buildx create --driver=docker-container --name=buildkit-builder --use
     - yarn install
     - nitric up --ci -v2
