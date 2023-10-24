@@ -7,29 +7,32 @@ services:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
-variables:
-  DOCKER_HOST: tcp://docker:2376
-  DOCKER_TLS_CERTDIR: ""
-  PULUMI_CONFIG_PASSPHRASE: $PULUMI_ACCESS_TOKEN
-  PULUMI_ACCESS_TOKEN: $PULUMI_ACCESS_TOKEN
-  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-  AWS_REGION: "us-east-1"
+stages:
+  - deploy
 
 update:
   stage: deploy
-  image:
-    name: pulumi/pulumi
-    entrypoint: [""]
+  variables:
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: ""
+    PULUMI_CONFIG_PASSPHRASE: $PULUMI_ACCESS_TOKEN
+    PULUMI_ACCESS_TOKEN: $PULUMI_ACCESS_TOKEN
+    AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+    AWS_REGION: "us-east-1"
   before_script:
+    - apk update
+    - apk add curl bash
     - curl https://nitric.io/install | bash
     - export PATH=$PATH:$HOME/.nitric/bin
+    - curl -fsSL https://get.pulumi.com/ | bash
+    - export PATH=$PATH:$HOME/.pulumi/bin
     - pulumi login
-    - apt-get install docker.io docker-buildx-plugin -y
+    - apk add docker.io docker-buildx-plugin nodejs
+    - npm i -g yarn
   script:
     - export PATH=$PATH:$HOME/.pulumi/bin
     - export PATH=$PATH:$HOME/.nitric/bin
-    - dockerd
     - docker buildx create --driver=docker-container --name=buildkit-builder --use
     - yarn install
     - nitric up --ci -v2
