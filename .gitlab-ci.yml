@@ -20,10 +20,11 @@ update:
     AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
     AWS_REGION: "us-east-1"
+    OSTYPE: "linux-musl"
   before_script:
     - apk update
     - apk add curl bash
-    - curl https://nitric.io/install | OSTYPE="linux-musl" bash
+    - curl https://nitric.io/install | bash
     - export PATH=$PATH:$HOME/.nitric/bin
     - curl -fsSL https://get.pulumi.com/ | bash
     - export PATH=$PATH:$HOME/.pulumi/bin
