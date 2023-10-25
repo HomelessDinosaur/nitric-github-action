@@ -22,6 +22,7 @@ update:
     AWS_REGION: "us-east-1"
     OSTYPE: "linux-musl"
   before_script:
+    - echo $OSTYPE
     - apk update
     - apk add curl bash
     - curl https://nitric.io/install | bash
