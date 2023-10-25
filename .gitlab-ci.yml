@@ -31,13 +31,12 @@ update:
     - export PATH=$PATH:$HOME/.pulumi/bin
     - pulumi login
     - apk add nodejs npm docker-cli-buildx
-    - apk add --no-cache --virtual .gyp python make g++ \
-      && npm install [ your npm dependencies here ] \
-      && apk del .gyp
+    - apk add --no-cache --virtual .gyp python make g++
     - npm i -g yarn
   script:
     - export PATH=$PATH:$HOME/.pulumi/bin
     - export PATH=$PATH:$HOME/.nitric/bin
     - docker buildx create --driver=docker-container --name=buildkit-builder --use
     - yarn install
+    - apk del .gyp
     - nitric up --ci -v2
