@@ -31,7 +31,7 @@ update:
     - export PATH=$PATH:$HOME/.pulumi/bin
     - pulumi login
     - apk add nodejs npm docker-cli-buildx
-    - apk add --no-cache --virtual .gyp python make g++
+    - apk add --no-cache --virtual .gyp python3 make g++
     - npm i -g yarn
   script:
     - export PATH=$PATH:$HOME/.pulumi/bin
