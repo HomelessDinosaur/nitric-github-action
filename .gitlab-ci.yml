@@ -31,7 +31,7 @@ update:
     - export PATH=$PATH:$HOME/.pulumi/bin
     - pulumi login
     - apk add nodejs npm docker-cli-buildx
-    - apk add --no-cache --virtual .gyp python3 make g++
+    - apk add --no-cache --virtual .gyp python3 make g++ git
     - npm i -g yarn
   script:
     - export PATH=$PATH:$HOME/.pulumi/bin
@@ -39,4 +39,4 @@ update:
     - docker buildx create --driver=docker-container --name=buildkit-builder --use
     - yarn install
     - apk del .gyp
-    - nitric up --ci -v2
+    - nitric up -v2
