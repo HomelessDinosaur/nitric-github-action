@@ -30,7 +30,7 @@ update:
     - curl -fsSL https://get.pulumi.com/ | bash
     - export PATH=$PATH:$HOME/.pulumi/bin
     - pulumi login
-    - apk add nodejs npm python3 docker-cli-buildx
+    - apk add nodejs npm python3 make docker-cli-buildx
     - npm i -g yarn
   script:
     - export PATH=$PATH:$HOME/.pulumi/bin
