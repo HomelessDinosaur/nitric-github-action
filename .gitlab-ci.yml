@@ -23,7 +23,8 @@ update:
   before_script:
     - apk update
     - apk add curl bash
-    - OSTYPE=linux-musl curl https://nitric.io/install | bash
+    - export OSTYPE="linux-musl"
+    - curl https://nitric.io/install | bash
     - export PATH=$PATH:$HOME/.nitric/bin
     - curl -fsSL https://get.pulumi.com/ | bash
     - export PATH=$PATH:$HOME/.pulumi/bin
