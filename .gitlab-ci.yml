@@ -10,8 +10,6 @@ stages:
 
 update:
   stage: deploy
-  services:
-    - docker:24.0.5-dind
   variables:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
@@ -22,7 +20,6 @@ update:
     AWS_REGION: "us-east-1"
     OSTYPE: "linux-musl"
   before_script:
-    - echo $OSTYPE
     - apk update
     - apk add curl bash
     - curl https://nitric.io/install | bash
@@ -39,4 +36,4 @@ update:
     - docker buildx create --driver=docker-container --name=buildkit-builder --use
     - yarn install
     - apk del .gyp
-    - nitric up -v2
+    - nitric up --ci -v2
