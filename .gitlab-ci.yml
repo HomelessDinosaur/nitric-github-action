@@ -22,9 +22,8 @@ update:
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
     AWS_REGION: "us-east-1"
     OSTYPE: "linux-musl"
+    HOST_DOCKER_INTERNAL_IFACE: "eth0"
   before_script:
-    - export HOST_DOCKER_INTERNAL_IFACE="$(ip link show | grep -v "ether" | grep "eth" | head -n 1 | awk '{ print $2 }')"
-    - echo $HOST_DOCKER_INTERNAL_IFACE
     - apk update
     - apk add curl bash
     - curl https://nitric.io/install | bash
