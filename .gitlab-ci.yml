@@ -1,42 +1,31 @@
-image: docker:24.0.5
-
-.standard-rules: # Make a hidden job to hold the common rules
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
-stages:
-  - deploy
-
-update:
-  stage: deploy
+deploy:
+  image: docker:24.0.5
   services:
     - name: docker:24.0.5-dind
       alias: dind-service
   variables:
     DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
     PULUMI_CONFIG_PASSPHRASE: $PULUMI_ACCESS_TOKEN
     PULUMI_ACCESS_TOKEN: $PULUMI_ACCESS_TOKEN
     AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-    AWS_REGION: "us-east-1"
     OSTYPE: "linux-musl"
     HOST_DOCKER_INTERNAL_IFACE: "eth0"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   before_script:
     - apk update
-    - apk add curl bash
+    - apk add --no-cache curl bash
     - curl https://nitric.io/install | bash
     - export PATH=$PATH:$HOME/.nitric/bin
     - curl -fsSL https://get.pulumi.com/ | bash
     - export PATH=$PATH:$HOME/.pulumi/bin
     - pulumi login
-    - apk add nodejs npm docker-cli-buildx
-    - apk add --no-cache --virtual .gyp python3 make g++ git
+    - apk add --no-cache nodejs npm docker-cli-buildx
+    - apk add --no-cache --virtual .gyp python3 make g++
     - npm i -g yarn
   script:
-    - export PATH=$PATH:$HOME/.pulumi/bin
-    - export PATH=$PATH:$HOME/.nitric/bin
     - docker buildx create --driver=docker-container --name=buildkit-builder --driver-opt network=host --use
     - yarn install
     - apk del .gyp
