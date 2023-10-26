@@ -11,7 +11,7 @@ stages:
 update:
   stage: deploy
   services:
-    - name: docker-dind:24.0.5
+    - name: docker:24.0.5-dind
       alias: dind-service
   variables:
     DOCKER_HOST: tcp://docker:2375
