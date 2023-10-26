@@ -22,7 +22,7 @@ update:
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
     AWS_REGION: "us-east-1"
     OSTYPE: "linux-musl"
-    HOST_DOCKER_INTERNAL_IFACE: "lo"
+    HOST_DOCKER_INTERNAL_IFACE: "eth0@if22"
   before_script:
     - apk update
     - apk add curl bash
