@@ -35,7 +35,6 @@ update:
   # - apk add --no-cache --virtual .gyp python3 make g++ git
   # - npm i -g yarn
   script:
-    - apk add ip
     - ip link show
     # - export PATH=$PATH:$HOME/.pulumi/bin
     # - export PATH=$PATH:$HOME/.nitric/bin
