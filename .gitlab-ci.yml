@@ -10,6 +10,9 @@ stages:
 
 update:
   stage: deploy
+  services:
+    - name: docker-dind:24.0.5
+      alias: dind-service
   variables:
     DOCKER_HOST: tcp://docker:2375
     DOCKER_TLS_CERTDIR: ""
@@ -33,7 +36,7 @@ update:
   script:
     - export PATH=$PATH:$HOME/.pulumi/bin
     - export PATH=$PATH:$HOME/.nitric/bin
-    - docker buildx create --driver=docker-container --name=buildkit-builder --use
+    - docker buildx create --driver=docker-container --name=buildkit-builder --driver-opt network=host --use
     - yarn install
     - apk del .gyp
     - nitric up --ci -v2
