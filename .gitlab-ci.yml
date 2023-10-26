@@ -23,7 +23,7 @@ update:
     AWS_REGION: "us-east-1"
     OSTYPE: "linux-musl"
   before_script:
-    - export HOST_DOCKER_INTERNAL_IFACE="$(ip link show | grep eth | awk '{ print $2 }')"
+    - export HOST_DOCKER_INTERNAL_IFACE="$(ip link show | grep -v "ether" eth | head -n 1 | awk '{ print $2 }')"
     - echo $HOST_DOCKER_INTERNAL_IFACE
     - apk update
     - apk add curl bash
