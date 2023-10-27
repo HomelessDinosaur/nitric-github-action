@@ -22,11 +22,6 @@ deploy:
     - curl -fsSL https://get.pulumi.com/ | bash
     - export PATH=$PATH:$HOME/.pulumi/bin
     - pulumi login
-    - apk add --no-cache nodejs npm docker-cli-buildx
-    - apk add --no-cache --virtual .gyp python3 make g++
-    - npm i -g yarn
-  script:
     - docker buildx create --driver=docker-container --name=buildkit-builder --driver-opt network=host --use
-    - yarn install
-    - apk del .gyp
+  script:
     - nitric up --ci -v2
