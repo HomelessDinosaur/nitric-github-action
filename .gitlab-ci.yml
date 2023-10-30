@@ -4,12 +4,10 @@ deploy:
     - name: docker:24.0.5-dind
       alias: dind-service
   variables:
-    DOCKER_HOST: tcp://docker:2375
     PULUMI_CONFIG_PASSPHRASE: $PULUMI_ACCESS_TOKEN
     PULUMI_ACCESS_TOKEN: $PULUMI_ACCESS_TOKEN
     AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-    OSTYPE: "linux-musl"
     HOST_DOCKER_INTERNAL_IFACE: "eth0"
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
@@ -21,6 +19,5 @@ deploy:
     - export PATH=$PATH:$HOME/.nitric/bin
     - curl -fsSL https://get.pulumi.com/ | bash
     - export PATH=$PATH:$HOME/.pulumi/bin
-    - pulumi login
   script:
     - nitric up --ci -v2
