@@ -22,6 +22,5 @@ deploy:
     - curl -fsSL https://get.pulumi.com/ | bash
     - export PATH=$PATH:$HOME/.pulumi/bin
     - pulumi login
-    - docker buildx create --driver=docker-container --name=buildkit-builder --driver-opt network=host --use
   script:
     - nitric up --ci -v2
