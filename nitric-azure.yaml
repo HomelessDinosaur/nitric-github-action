@@ -1,0 +1,5 @@
+name: azure
+provider: nitric/azure@0.0.1
+adminemail: fryzee.cartwright@gmail.com
+org: Homeless Dinosaurs
+region: eastus

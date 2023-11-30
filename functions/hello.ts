@@ -1,11 +1,13 @@
-import { api } from "@nitric/sdk";
+import { api, bucket } from "@nitric/sdk";
 
-const helloApi = api('main');
+const helloApi = api("main", {});
+
+const b = bucket("bucket-name").for("writing");
 
 helloApi.get("/hello/:name", async (ctx) => {
-    const { name } = ctx.req.params;
+  const { name } = ctx.req.params;
 
-    ctx.res.body = `Hello ${name}`;
+  ctx.res.body = `Hello ${name}`;
 
-    return ctx;
+  return ctx;
 });
