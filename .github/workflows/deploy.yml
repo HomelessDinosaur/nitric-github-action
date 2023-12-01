@@ -7,6 +7,7 @@ jobs:
   up:
     name: Update AWS
     runs-on: ubuntu-latest
+    environment: github-action-test
     steps:
       - uses: actions/checkout@v4
       - uses: nitrictech/actions@v1
