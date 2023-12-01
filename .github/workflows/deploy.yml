@@ -21,14 +21,15 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   audit:
     name: Run cloudsplaining
+    needs: up
     runs-on: ubuntu-latest
     environment: github-action-test
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
-      - pip3 install --user cloudsplaining
-      - cloudsplaining download
-      - cloudsplaining scan --input-file default.json --skip-open-report
+      - run: pip3 install --user cloudsplaining
+      - run: cloudsplaining download
+      - run: cloudsplaining scan --input-file default.json --skip-open-report
       - uses: actions/upload-artifact@v3
         with:
           name: cloudsplaining-report
@@ -36,7 +37,7 @@ jobs:
           retention-days: 7
   down:
     name: Destroy AWS
-    needs: up
+    needs: audit
     runs-on: ubuntu-latest
     environment: github-action-test
     steps:
